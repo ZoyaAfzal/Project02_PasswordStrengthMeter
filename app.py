@@ -148,7 +148,7 @@ elif action == "Saved Passwords":
 
 # Footer with profile pic (Use a URL instead of local file)
 st.markdown("""
-    <div style='text-align:center; font-size:16px; margin-top:20px; color:#00E5FF;'>
+    <div style='text-align:center; font-size:16px; margin-top:140px; color:#00E5FF;'>
         ❤️ Created by <b>Zoya Afzal</b>
     </div>
 """, unsafe_allow_html=True)
