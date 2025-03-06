@@ -70,10 +70,6 @@ st.markdown("<hr>", unsafe_allow_html=True)
 if action == "Check Password Strength":
     st.subheader("🔍 Check Your Password Strength")
 
-    # Ensure password history is initialized
-    if "password_history" not in st.session_state:
-        st.session_state.password_history = []
-
     password = st.text_input("Enter Password:", type="password")
 
     if password:  # Run only if a password is entered
@@ -113,42 +109,34 @@ elif action == "Generate a Strong Password":
 
         st.success(f"🔑 Your Secure Password: `{st.session_state.generated_password}`")
 
-    # Show history of generated passwords
-    if st.session_state.password_history:
-        st.subheader("📜 Password History")
-        for i, pwd in enumerate(st.session_state.password_history, start=1):
-            st.code(f"{i}. {pwd}")
 
     if st.button("💾 Save Password"):
         if st.session_state.generated_password:
-            if st.session_state.generated_password in st.session_state.saved_passwords[-10:]:
-                st.error("❌ This password has been used recently! Try generating a new one.")
+            if st.session_state.generated_password in st.session_state.saved_passwords:
+                st.warning("⚠️ This password is already saved!")
             else:
                 st.session_state.saved_passwords.append(st.session_state.generated_password)
-                st.success("✅ Password saved successfully!")
+                st.toast("✅ Password saved successfully!", icon="💾")
         else:
-            st.markdown("""
-        <div style='background-color:#00E5FF; color:#000; padding:10px; border-radius:5px; text-align:center; font-weight:bold;'>
-        ⚠️ No password generated yet!
-        </div>
-""", unsafe_allow_html=True)
+            st.warning("⚠️ No password generated yet!")
 
+    # Show history of generated passwords
+    if st.session_state.password_history:
+        st.subheader("📜 Password History")
+        for pwd in st.session_state.password_history:
+            st.code(pwd) 
 elif action == "Saved Passwords":
     st.subheader("💾 Saved Passwords")
     
     if st.session_state.saved_passwords:
-        for idx, password in enumerate(st.session_state.saved_passwords, 1):
-            st.code(f"{idx}. {password}")
+        for password in st.session_state.saved_passwords:
+            st.code(password) 
     else:
-        st.markdown("""
-    <div style='background-color:#00E5FF; color:#000; padding:10px; border-radius:5px; text-align:center; font-weight:bold;'>
-        ⚠️ No saved passwords yet.
-    </div>
-""", unsafe_allow_html=True)
+        st.markdown("""<div style='background-color:#00E5FF; color:#000; padding:10px; border-radius:5px; text-align:center; font-weight:bold;'>⚠️ No saved passwords yet.</div>""", unsafe_allow_html=True)
 
-# Footer with profile pic (Use a URL instead of local file)
+# Footer with profile info
 st.markdown("""
-    <div style='text-align:center; font-size:16px; margin-top:140px; color:#00E5FF;'>
+    <div style='text-align:center; font-size:16px; margin-top:150px; color:#00E5FF;'>
         ❤️ Created by <b>Zoya Afzal</b>
     </div>
 """, unsafe_allow_html=True)
